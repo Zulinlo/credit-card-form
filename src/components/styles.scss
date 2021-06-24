@@ -1,0 +1,13 @@
+$rccs-size: 1000px; // bruh wtf
+
+.container--creditCard {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 2;
+  box-shadow: 0 0 15px #A1A1A1;
+  margin: 0 auto;
+  margin-top: -18%;
+  width: 30vw;
+  border-radius: 3rem;
+}

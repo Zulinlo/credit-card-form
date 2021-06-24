@@ -1,0 +1,90 @@
+/* Small devices: Phones */
+@media only screen and (min-width: 100px) {
+  html {
+    font-size: 75%;
+  }
+}
+
+/* Medium devices: Laptops, tablets */
+@media only screen and (min-width: 768px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+/* Large devices: TVs, large monitors */
+@media only screen and (min-width: 1200px) {
+  html {
+    font-size: 125%;
+  }
+}
+
+body {
+  background-color: #DDE9FA;
+  font-size: 1rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 53%;
+  height: 65%;
+  background-color: #FEFEFE;
+  border-radius: 15px;
+  box-shadow: 0 0 15px #A1A1A1;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 5%;
+  height: 65%;
+  margin-top: 18%;
+
+  > div {
+    width: 100%;
+
+    .expirationYear {
+      margin-left: 5%;
+    }
+
+    .item:nth-child(1) {
+      width: 50%;
+    }
+
+    .item {
+      display: inline-block;
+
+      select {
+        width: 40%;
+      }
+    }
+  }
+
+  select, input {
+    width: 100%;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+  }
+
+  input[type="submit"] {
+    color: white;
+    outline: none;
+    background-color: #3E4EC8;
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    font-size: 1.1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
