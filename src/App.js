@@ -3,6 +3,7 @@ import { useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { CreditCard } from "./models";
 import Cleave from "cleave.js/react";
+import validator from "validator";
 
 import CreditCardVisual from "./components/CreditCardVisual";
 
@@ -62,8 +63,8 @@ const App = () => {
     switch (className) {
       case "cardNumber": {
         if (
-          !value.length === 0 &&
-          (!/^[0-9]+$/.test(value) || value.length > 16)
+          value.length === 0 &&
+          (!/^$|^[0-9]+$/.test(value) || value.length > 16)
         )
           return;
 
@@ -72,11 +73,7 @@ const App = () => {
       }
 
       case "cardName": {
-        if (
-          !value.length === 0 &&
-          (!/^[a-zA-Z ]+$/.test(value) || value.length > 26)
-        )
-          return;
+        if (!/^$|^[a-zA-Z ]+$/.test(value) || value.length > 26) return;
 
         focus = "name";
         break;
@@ -88,11 +85,7 @@ const App = () => {
       }
 
       case "cvv": {
-        if (
-          !value.length === 0 &&
-          (!/^[0-9]+$/.test(value) || value.length > 4)
-        )
-          return;
+        if (!/^$|^[0-9]+$/.test(value) || value.length > 4) return;
 
         focus = "cvc";
         break;
@@ -108,19 +101,61 @@ const App = () => {
     event.preventDefault();
     let expiry = form.expirationMonth + "/" + form.expirationYear;
 
-    //if (!validator.isCreditCard(form.cardNumber)) {
-    //alert("Invalid credit card number");
-    //return;
-    //}
+    if (!validator.isCreditCard(form.cardNumber)) {
+      alert("Invalid credit card number");
+      return;
+    }
 
-    await DataStore.save(
-      new CreditCard({
-        name: form.cardName,
-        number: form.cardNumber,
-        expiry: expiry,
-        cvc: form.cvv,
-      })
-    );
+    if (!/^[a-zA-Z ]+$/.test(form.cardName) || form.cardName.length > 26) {
+      alert("Invalid credit card name");
+      return;
+    }
+
+    let invalidMonth = true;
+    for (let i = 1; i < 13; ++i) {
+      let formatted = ("0" + i).slice(-2);
+      if (form.expirationMonth === formatted) {
+        invalidMonth = false;
+        break;
+      }
+    }
+
+    if (invalidMonth) {
+      alert("Invalid expiration month");
+      return;
+    }
+
+    let invalidYear = true;
+    for (
+      let i = new Date().getFullYear();
+      i < new Date().getFullYear() + 30;
+      ++i
+    ) {
+      if (form.expirationYear === i.toString()) {
+        invalidYear = false;
+        break;
+      }
+    }
+
+    if (invalidYear) {
+      alert("Invalid expiration year");
+      return;
+    }
+
+    if (!/^[0-9]+$/.test(form.cvv) || form.cvv.length < 3) {
+      alert("Invalid cvv");
+      return;
+    }
+
+    if (form.expirationMonth)
+      await DataStore.save(
+        new CreditCard({
+          name: form.cardName,
+          number: form.cardNumber,
+          expiry: expiry,
+          cvc: form.cvv,
+        })
+      );
 
     setForm({
       cardNumber: "",
@@ -172,7 +207,7 @@ const App = () => {
               value={form.expirationMonth}
               onChange={handleFieldChange}
             >
-              <option>Month</option>
+              <option value="00">Month</option>
               {renderMonths()}
             </select>
             <select
@@ -180,7 +215,7 @@ const App = () => {
               value={form.expirationYear}
               onChange={handleFieldChange}
             >
-              <option>Year</option>
+              <option value="00">Year</option>
               {renderYears()}
             </select>
           </div>
