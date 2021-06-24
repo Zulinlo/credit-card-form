@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { DataStore } from "@aws-amplify/datastore";
 import { CreditCard } from "./models";
-
 import Cleave from "cleave.js/react";
+import validator from "validator";
+
 import CreditCardVisual from "./components/CreditCardVisual";
 
 import "./styles.scss";
@@ -87,12 +89,17 @@ const App = () => {
     event.preventDefault();
     let expiry = form.expirationMonth + "/" + form.expirationYear;
 
+    if (!validator.isCreditCard(form.cardNumber)) {
+      alert("Invalid credit card number");
+      return;
+    }
+
     await DataStore.save(
       new CreditCard({
-        name: form.name,
-        number: form.number,
+        name: form.cardName,
+        number: form.cardNumber,
         expiry: expiry,
-        cvc: form.cvc,
+        cvc: form.cvv,
       })
     );
 
