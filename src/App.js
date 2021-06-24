@@ -3,7 +3,6 @@ import { useState } from "react";
 import { DataStore } from "@aws-amplify/datastore";
 import { CreditCard } from "./models";
 import Cleave from "cleave.js/react";
-import validator from "validator";
 
 import CreditCardVisual from "./components/CreditCardVisual";
 
@@ -26,7 +25,11 @@ const App = () => {
 
     for (let i = 1; i < 13; ++i) {
       let formatted = ("0" + i).slice(-2);
-      res.push(<option value={formatted}>{formatted}</option>);
+      res.push(
+        <option key={i} value={formatted}>
+          {formatted}
+        </option>
+      );
     }
 
     return res;
@@ -40,7 +43,11 @@ const App = () => {
       i < new Date().getFullYear() + 30;
       ++i
     ) {
-      res.push(<option value={i}>{i}</option>);
+      res.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
     }
 
     return res;
@@ -54,14 +61,22 @@ const App = () => {
     let focus = "";
     switch (className) {
       case "cardNumber": {
-        if (!/^[0-9]+$/.test(value) || value.length > 16) return;
+        if (
+          !value.length === 0 &&
+          (!/^[0-9]+$/.test(value) || value.length > 16)
+        )
+          return;
 
         focus = "number";
         break;
       }
 
       case "cardName": {
-        if (!/^[a-zA-Z ]+$/.test(value) || value.length > 26) return;
+        if (
+          !value.length === 0 &&
+          (!/^[a-zA-Z ]+$/.test(value) || value.length > 26)
+        )
+          return;
 
         focus = "name";
         break;
@@ -73,7 +88,11 @@ const App = () => {
       }
 
       case "cvv": {
-        if (!/^[0-9]+$/.test(value) || value.length > 4) return;
+        if (
+          !value.length === 0 &&
+          (!/^[0-9]+$/.test(value) || value.length > 4)
+        )
+          return;
 
         focus = "cvc";
         break;
@@ -89,10 +108,10 @@ const App = () => {
     event.preventDefault();
     let expiry = form.expirationMonth + "/" + form.expirationYear;
 
-    if (!validator.isCreditCard(form.cardNumber)) {
-      alert("Invalid credit card number");
-      return;
-    }
+    //if (!validator.isCreditCard(form.cardNumber)) {
+    //alert("Invalid credit card number");
+    //return;
+    //}
 
     await DataStore.save(
       new CreditCard({
@@ -128,10 +147,10 @@ const App = () => {
           Card Number
           <br />
           <Cleave
-            options={{ creditCard: true }}
-            value={form.cardNumber}
-            onChange={handleFieldChange}
             className="cardNumber"
+            value={form.cardNumber}
+            options={{ creditCard: true }}
+            onChange={handleFieldChange}
           />
         </div>
         <div>
