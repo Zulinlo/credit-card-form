@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { DataStore } from "@aws-amplify/datastore";
+import { CreditCard } from "./models";
 
 import Cleave from "cleave.js/react";
-import CreditCard from "./components/CreditCard";
+import CreditCardVisual from "./components/CreditCardVisual";
 
 import "./styles.scss";
 
@@ -81,13 +83,32 @@ const App = () => {
   };
 
   // Handling form submit
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    let expiry = form.expirationMonth + "/" + form.expirationYear;
+
+    await DataStore.save(
+      new CreditCard({
+        name: form.name,
+        number: form.number,
+        expiry: expiry,
+        cvc: form.cvc,
+      })
+    );
+
+    setForm({
+      cardNumber: "",
+      cardName: "",
+      expirationMonth: "00",
+      expirationYear: "00",
+      cvv: "",
+      focused: "",
+    });
   };
 
   return (
     <div className="container">
-      <CreditCard
+      <CreditCardVisual
         cardNumber={form.cardNumber}
         cardName={form.cardName}
         expirationMonth={form.expirationMonth}

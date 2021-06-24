@@ -3,7 +3,7 @@ import Cards from "react-credit-cards";
 import "./styles.scss";
 import "react-credit-cards/lib/styles.scss";
 
-const CreditCard = ({
+const CreditCardVisual = ({
   cardNumber,
   cardName,
   expirationMonth,
@@ -26,4 +26,4 @@ const CreditCard = ({
   );
 };
 
-export default CreditCard;
+export default CreditCardVisual;

@@ -1,0 +1,7 @@
+type CreditCard @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  number: String
+  expiry: String
+  cvc: String
+}
