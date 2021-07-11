@@ -1,3 +1,3 @@
-# React app to create a credit card form with a visualiser
+# React app for a credit card form with visualiser
 
 Uses AWS amplify for backend storage
