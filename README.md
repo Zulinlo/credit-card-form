@@ -1,3 +1,16 @@
-React app to create a credit card form with a visualiser
+# Credit Card Form with Visualiser
 
-Uses AWS amplify for backend storage
+## Description
+A credit card form that features a real-time credit card visualiser, upon submit is stored in an AWS Amplify database
+
+### Executing program
+
+```bash
+git fork https://github.com/Zulinlo/credit-card-form.git
+cd src/
+npm start
+```
+
+## Authors
+
+Sam Wu
