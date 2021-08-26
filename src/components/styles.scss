@@ -1,4 +1,8 @@
-$rccs-size: 30vw; // bruh wtf
+// Override styles
+$rccs-size: 30vw;
+
+// Credit card styles
+@import 'react-credit-cards/lib/styles.scss';
 
 .container--creditCard {
   position: absolute;

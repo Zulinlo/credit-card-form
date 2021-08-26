@@ -1,7 +1,6 @@
 import Cards from "react-credit-cards";
 
 import "./styles.scss";
-import "react-credit-cards/lib/styles.scss";
 
 const CreditCardVisual = ({
   cardNumber,
